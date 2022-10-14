@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 	"sync"
 	"time"
 
@@ -15,18 +15,18 @@ import (
 	"github.com/deepch/vdk/av"
 )
 
-//Config global
+// Config global
 var Config = loadConfig()
 
-//ConfigST struct
+// ConfigST struct
 type ConfigST struct {
-	mutex   sync.RWMutex
-	Server  ServerST            `json:"server"`
-	Streams map[string]StreamST `json:"streams"`
+	mutex     sync.RWMutex
+	Server    ServerST            `json:"server"`
+	Streams   map[string]StreamST `json:"streams"`
 	LastError error
 }
 
-//ServerST struct
+// ServerST struct
 type ServerST struct {
 	HTTPPort      string   `json:"http_port"`
 	ICEServers    []string `json:"ice_servers"`
@@ -36,7 +36,7 @@ type ServerST struct {
 	WebRTCPortMax uint16   `json:"webrtc_port_max"`
 }
 
-//StreamST struct
+// StreamST struct
 type StreamST struct {
 	URL          string `json:"url"`
 	Status       bool   `json:"status"`
@@ -116,7 +116,7 @@ func (element *ConfigST) GetWebRTCPortMax() uint16 {
 
 func loadConfig() *ConfigST {
 	var tmp ConfigST
-	data, err := ioutil.ReadFile("config.json")
+	data, err := os.ReadFile("config.json")
 	if err == nil {
 		err = json.Unmarshal(data, &tmp)
 		if err != nil {
@@ -210,19 +210,19 @@ func (element *ConfigST) clAd(suuid string) (string, chan av.Packet) {
 	return cuuid, ch
 }
 
-func (element *ConfigST) list() (string, []string) {
-	element.mutex.Lock()
-	defer element.mutex.Unlock()
-	var res []string
-	var fist string
-	for k := range element.Streams {
-		if fist == "" {
-			fist = k
-		}
-		res = append(res, k)
-	}
-	return fist, res
-}
+//	func (element *ConfigST) list() (string, []string) {
+//		element.mutex.Lock()
+//		defer element.mutex.Unlock()
+//		var res []string
+//		var fist string
+//		for k := range element.Streams {
+//			if fist == "" {
+//				fist = k
+//			}
+//			res = append(res, k)
+//		}
+//		return fist, res
+//	}
 func (element *ConfigST) clDe(suuid, cuuid string) {
 	element.mutex.Lock()
 	defer element.mutex.Unlock()

@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	ErrorStreamExitNoVideoOnStream = errors.New("Stream Exit No Video On Stream")
-	ErrorStreamExitRtspDisconnect  = errors.New("Stream Exit Rtsp Disconnect")
-	ErrorStreamExitNoViewer        = errors.New("Stream Exit On Demand No Viewer")
+	ErrorStreamExitNoVideoOnStream = errors.New("stream Exit No Video On Stream")
+	ErrorStreamExitRtspDisconnect  = errors.New("stream Exit Rtsp Disconnect")
+	ErrorStreamExitNoViewer        = errors.New("stream Exit On Demand No Viewer")
 )
 
 func serveStreams() {
